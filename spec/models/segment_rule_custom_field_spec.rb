@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: segment_rule_custom_fields
+#
+#  id               :bigint           not null, primary key
+#  value            :string
+#  segment_rules_id :bigint           not null
+#  custom_fields_id :bigint           not null
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#
 require 'rails_helper'
 
 RSpec.describe SegmentRuleCustomField, type: :model do
