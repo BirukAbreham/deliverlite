@@ -7,7 +7,7 @@ class CreateContacts < ActiveRecord::Migration[6.0]
       t.integer :open, default: 0
       t.integer :delivered, default: 0
       t.integer :clicked, default: 0
-      t.string :type, null: false
+      t.string :contact_type, null: false
       t.datetime :date_subscribed, null: true
       t.datetime :date_unsubscribed, null: true
 

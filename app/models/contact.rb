@@ -16,5 +16,17 @@
 #  updated_at        :datetime         not null
 #
 class Contact < ApplicationRecord
+  # validations
+  validates :name, :email, :contact_type, presence: true
+  validates :date_subscribed, :date_unsubscribed, absence: true
+  validates_uniqueness_of :email
+
+  # validate association
+  validates_associated :groups
+
+  # associations
+  has_many :contact_activities, dependent: :destroy
+  has_many :contact_custom_fields, dependent: :destroy
   has_and_belongs_to_many :groups
+
 end

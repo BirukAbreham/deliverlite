@@ -1,7 +1,7 @@
 class CreateCampaigns < ActiveRecord::Migration[6.0]
   def change
     create_table :campaigns do |t|
-      t.string :type, null: false
+      t.string :campaign_type, null: false
       t.string :status, null: false
       t.datetime :scheduled_at, null: false
       t.datetime :sent_at, null: true

@@ -17,14 +17,14 @@ ActiveRecord::Schema.define(version: 2020_12_15_035212) do
 
   create_table "campaign_activities", force: :cascade do |t|
     t.text "message", null: false
-    t.bigint "campaigns_id", null: false
+    t.bigint "campaign_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["campaigns_id"], name: "index_campaign_activities_on_campaigns_id"
+    t.index ["campaign_id"], name: "index_campaign_activities_on_campaign_id"
   end
 
   create_table "campaigns", force: :cascade do |t|
-    t.string "type", null: false
+    t.string "campaign_type", null: false
     t.string "status", null: false
     t.datetime "scheduled_at", null: false
     t.datetime "sent_at"
@@ -43,21 +43,21 @@ ActiveRecord::Schema.define(version: 2020_12_15_035212) do
 
   create_table "contact_activities", force: :cascade do |t|
     t.text "message", null: false
-    t.string "type", null: false
-    t.bigint "contacts_id", null: false
+    t.string "activity_type", null: false
+    t.bigint "contact_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["contacts_id"], name: "index_contact_activities_on_contacts_id"
+    t.index ["contact_id"], name: "index_contact_activities_on_contact_id"
   end
 
   create_table "contact_custom_fields", force: :cascade do |t|
     t.string "value", null: false
-    t.bigint "contacts_id", null: false
-    t.bigint "custom_fields_id", null: false
+    t.bigint "contact_id", null: false
+    t.bigint "custom_field_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["contacts_id"], name: "index_contact_custom_fields_on_contacts_id"
-    t.index ["custom_fields_id"], name: "index_contact_custom_fields_on_custom_fields_id"
+    t.index ["contact_id"], name: "index_contact_custom_fields_on_contact_id"
+    t.index ["custom_field_id"], name: "index_contact_custom_fields_on_custom_field_id"
   end
 
   create_table "contacts", force: :cascade do |t|
@@ -67,7 +67,7 @@ ActiveRecord::Schema.define(version: 2020_12_15_035212) do
     t.integer "open", default: 0
     t.integer "delivered", default: 0
     t.integer "clicked", default: 0
-    t.string "type", null: false
+    t.string "contact_type", null: false
     t.datetime "date_subscribed"
     t.datetime "date_unsubscribed"
     t.datetime "created_at", precision: 6, null: false
@@ -96,21 +96,21 @@ ActiveRecord::Schema.define(version: 2020_12_15_035212) do
 
   create_table "segment_rule_custom_fields", force: :cascade do |t|
     t.string "value"
-    t.bigint "segment_rules_id", null: false
-    t.bigint "custom_fields_id", null: false
+    t.bigint "segment_rule_id", null: false
+    t.bigint "custom_field_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["custom_fields_id"], name: "index_segment_rule_custom_fields_on_custom_fields_id"
-    t.index ["segment_rules_id"], name: "index_segment_rule_custom_fields_on_segment_rules_id"
+    t.index ["custom_field_id"], name: "index_segment_rule_custom_fields_on_custom_field_id"
+    t.index ["segment_rule_id"], name: "index_segment_rule_custom_fields_on_segment_rule_id"
   end
 
   create_table "segment_rules", force: :cascade do |t|
     t.string "operator", null: false
     t.text "arguments", null: false
-    t.bigint "segments_id", null: false
+    t.bigint "segment_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["segments_id"], name: "index_segment_rules_on_segments_id"
+    t.index ["segment_id"], name: "index_segment_rules_on_segment_id"
   end
 
   create_table "segments", force: :cascade do |t|
@@ -119,11 +119,11 @@ ActiveRecord::Schema.define(version: 2020_12_15_035212) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  add_foreign_key "campaign_activities", "campaigns", column: "campaigns_id"
-  add_foreign_key "contact_activities", "contacts", column: "contacts_id"
-  add_foreign_key "contact_custom_fields", "contacts", column: "contacts_id"
-  add_foreign_key "contact_custom_fields", "custom_fields", column: "custom_fields_id"
-  add_foreign_key "segment_rule_custom_fields", "custom_fields", column: "custom_fields_id"
-  add_foreign_key "segment_rule_custom_fields", "segment_rules", column: "segment_rules_id"
-  add_foreign_key "segment_rules", "segments", column: "segments_id"
+  add_foreign_key "campaign_activities", "campaigns"
+  add_foreign_key "contact_activities", "contacts"
+  add_foreign_key "contact_custom_fields", "contacts"
+  add_foreign_key "contact_custom_fields", "custom_fields"
+  add_foreign_key "segment_rule_custom_fields", "custom_fields"
+  add_foreign_key "segment_rule_custom_fields", "segment_rules"
+  add_foreign_key "segment_rules", "segments"
 end
