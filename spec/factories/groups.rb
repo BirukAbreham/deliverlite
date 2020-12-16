@@ -15,20 +15,8 @@
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #
-require 'rails_helper'
-
-RSpec.describe Group, type: :model do
-
-  describe 'attribute validations' do
-    before { FactoryBot.create(:group) }
-
-    it { should validate_presence_of(:name) }
-  end
-
-  describe 'associations' do
-    before { FactoryBot.create(:group) }
-
-    it { should have_and_belongs_to_many(:contacts) }
-    it { should have_and_belongs_to_many(:campaigns) }
+FactoryBot.define do
+  factory :group do
+    name { Faker::Name.name }
   end
 end

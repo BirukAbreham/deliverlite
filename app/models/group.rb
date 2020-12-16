@@ -16,6 +16,10 @@
 #  updated_at   :datetime         not null
 #
 class Group < ApplicationRecord
+  # validations
+  validates_presence_of :name
+
+  # associations
   has_and_belongs_to_many :contacts
   has_and_belongs_to_many :campaigns
 end
