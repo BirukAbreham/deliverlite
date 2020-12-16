@@ -3,7 +3,7 @@
 # Table name: campaigns
 #
 #  id               :bigint           not null, primary key
-#  type             :string           not null
+#  campaign_type    :string           not null
 #  status           :string           not null
 #  scheduled_at     :datetime         not null
 #  sent_at          :datetime

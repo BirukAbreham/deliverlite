@@ -10,5 +10,17 @@
 require 'rails_helper'
 
 RSpec.describe CustomField, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  
+  describe 'attribute validation' do
+    before { FactoryBot.create(:custom_field) }
+    
+    it { should validate_presence_of(:name) }
+  end
+
+  describe 'associations' do
+    before { FactoryBot.create(:custom_field) }
+
+    it { should have_many(:contact_custom_fields).dependent(:destroy) }
+    it { should have_many(:segment_rule_custom_fields).dependent(:destroy) }
+  end
 end

@@ -7,11 +7,8 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
-class CustomField < ApplicationRecord
-  # validation
-  validates :name, presence: true
-
-  # associations
-  has_many :contact_custom_fields, dependent: :destroy
-  has_many :segment_rule_custom_fields, dependent: :destroy
+FactoryBot.define do
+  factory :custom_field do
+    name { Faker::Name.name }
+  end
 end

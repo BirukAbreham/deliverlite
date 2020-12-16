@@ -9,7 +9,7 @@
 #  open              :integer          default(0)
 #  delivered         :integer          default(0)
 #  clicked           :integer          default(0)
-#  type              :string           not null
+#  contact_type      :string           not null
 #  date_subscribed   :datetime
 #  date_unsubscribed :datetime
 #  created_at        :datetime         not null
