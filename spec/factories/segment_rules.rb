@@ -9,10 +9,9 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
-class SegmentRule < ApplicationRecord
-  # validations
-  validates :operator, :arguments, presence: true
-
-  # associations
-  belongs_to :segment
+FactoryBot.define do
+  factory :segment_rule do
+    operator { Faker::Name.name }
+    arguments { Faker::Lorem.sentence(word_count: 10) }
+  end
 end

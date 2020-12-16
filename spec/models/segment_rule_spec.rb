@@ -12,5 +12,13 @@
 require 'rails_helper'
 
 RSpec.describe SegmentRule, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'attribute validations' do
+    it { should validate_presence_of(:operator) }
+    it { should validate_presence_of(:arguments) }
+  end
+
+  describe 'associations' do
+    it { should belong_to(:segment) }
+    it { should have_db_index(:segment_id) }
+  end
 end
