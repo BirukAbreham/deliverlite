@@ -11,5 +11,12 @@
 require 'rails_helper'
 
 RSpec.describe CampaignActivity, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'attribute validations' do
+    it { should validate_presence_of(:message) }
+  end
+
+  describe 'associations' do
+    it { should belong_to(:campaign) }
+    it { should have_db_index(:campaign_id) }
+  end
 end

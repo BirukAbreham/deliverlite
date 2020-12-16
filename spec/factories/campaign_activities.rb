@@ -8,10 +8,8 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
-class CampaignActivity < ApplicationRecord
-  # validations
-  validates :message, presence: true
-
-  # associations
-  belongs_to :campaign
+FactoryBot.define do
+  factory :campaign_activity do
+    message { Faker::Lorem.sentence(word_count: 10) }
+  end
 end
