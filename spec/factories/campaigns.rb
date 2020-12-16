@@ -18,24 +18,11 @@
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #
-require 'rails_helper'
-
-RSpec.describe Campaign, type: :model do
-
-  describe 'attribute validations' do
-    # before { FactoryBot.create(:campaign) }
-
-    it { should validate_presence_of(:status) }
-    it { should validate_presence_of(:scheduled_at) }
-    it { should validate_absence_of(:sent_at) }
-    it { should validate_presence_of(:campaign_type) }
-    it { should validate_presence_of(:total_recipients) }
-  end
-
-  describe 'associations' do
-    # before { FactoryBot.create(:campaign) }
-
-    it { should have_many(:campaign_activities).dependent(:destroy) }
-    it { should have_and_belongs_to_many(:groups) }
+FactoryBot.define do
+  factory :campaign do
+    status { Faker::Name.name }
+    scheduled_at { Faker::Date.between(from: 2.days.ago, to: Date.today)  }
+    compaign_type { Faker::Name.name }
+    total_recipients { Faker::Number.number(digits: 5) }
   end
 end

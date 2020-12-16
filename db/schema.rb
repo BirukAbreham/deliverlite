@@ -24,11 +24,10 @@ ActiveRecord::Schema.define(version: 2020_12_15_035212) do
   end
 
   create_table "campaigns", force: :cascade do |t|
-    t.string "campaign_type", null: false
     t.string "status", null: false
     t.datetime "scheduled_at", null: false
     t.datetime "sent_at"
-    t.string "compaign_type", null: false
+    t.string "campaign_type", null: false
     t.integer "total_recipients", null: false
     t.boolean "is_archived", default: false
     t.integer "open_count", default: 0

@@ -3,11 +3,10 @@
 # Table name: campaigns
 #
 #  id               :bigint           not null, primary key
-#  campaign_type    :string           not null
 #  status           :string           not null
 #  scheduled_at     :datetime         not null
 #  sent_at          :datetime
-#  compaign_type    :string           not null
+#  campaign_type    :string           not null
 #  total_recipients :integer          not null
 #  is_archived      :boolean          default(FALSE)
 #  open_count       :integer          default(0)
@@ -20,5 +19,11 @@
 #  updated_at       :datetime         not null
 #
 class Campaign < ApplicationRecord
+  # validations
+  validates :status, :scheduled_at, :campaign_type, :total_recipients, presence: true
+  validates :sent_at, absence: true
+
+  # assoications
+  has_many :campaign_activities, dependent: :destroy
   has_and_belongs_to_many :groups
 end
