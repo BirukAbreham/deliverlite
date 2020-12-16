@@ -7,10 +7,8 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
-class Segment < ApplicationRecord
-  # validation
-  validates :title, presence: true
-
-  # associations
-  has_many :segment_rules, dependent: :destroy
+FactoryBot.define do
+  factory :segment do
+    title { Faker::Name.name }
+  end
 end

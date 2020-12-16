@@ -10,5 +10,12 @@
 require 'rails_helper'
 
 RSpec.describe Segment, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  describe 'attribute validations' do
+    it { should validate_presence_of(:title) }
+  end
+
+  describe 'associations' do
+    it { should have_many(:segment_rules).dependent(:destroy) }
+  end
 end
