@@ -12,5 +12,13 @@
 require 'rails_helper'
 
 RSpec.describe ContactActivity, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'attribute validation' do
+    it { should validate_presence_of(:message) }
+    it { should validate_presence_of(:activity_type) }
+  end
+
+  describe 'associations' do
+    it { should belong_to(:contact) }
+    it { should have_db_index(:contact_id) }
+  end
 end

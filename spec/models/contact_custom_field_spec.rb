@@ -12,5 +12,14 @@
 require 'rails_helper'
 
 RSpec.describe ContactCustomField, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'attribute validation' do
+    it { should validate_presence_of(:value) }
+  end
+
+  describe 'associations' do
+    it { should belong_to(:contact) }
+    it { should belong_to(:custom_field) }
+    it { should have_db_index(:contact_id) }
+    it { should have_db_index(:custom_field_id) }
+  end
 end

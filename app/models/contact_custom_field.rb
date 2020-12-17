@@ -10,6 +10,10 @@
 #  updated_at      :datetime         not null
 #
 class ContactCustomField < ApplicationRecord
-  belongs_to :contacts
-  belongs_to :custom_fields
+  # validations
+  validates :value, presence: true
+
+  # associations
+  belongs_to :contact
+  belongs_to :custom_field
 end

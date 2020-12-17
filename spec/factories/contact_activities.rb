@@ -9,10 +9,9 @@
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #
-class ContactActivity < ApplicationRecord
-  # validations
-  validates :message, :activity_type, presence: true
-
-  # associations
-  belongs_to :contact
+FactoryBot.define do
+  factory :contact_activity do
+    message { Faker::Lorem.sentence(word_count: 10) }
+    activity_type { Faker::Name.name }
+  end
 end

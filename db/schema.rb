@@ -94,7 +94,7 @@ ActiveRecord::Schema.define(version: 2020_12_15_035212) do
   end
 
   create_table "segment_rule_custom_fields", force: :cascade do |t|
-    t.string "value"
+    t.string "value", null: false
     t.bigint "segment_rule_id", null: false
     t.bigint "custom_field_id", null: false
     t.datetime "created_at", precision: 6, null: false

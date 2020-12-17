@@ -9,11 +9,8 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
-class SegmentRuleCustomField < ApplicationRecord
-  # validations
-  validates :value, presence: true
-
-  # associations
-  belongs_to :segment_rule
-  belongs_to :custom_field
+FactoryBot.define do
+  factory :segment_rule_custom_field do
+    value { "Favourite Color" }
+  end
 end
