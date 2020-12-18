@@ -36,6 +36,6 @@ RSpec.describe Campaign, type: :model do
     # before { FactoryBot.create(:campaign) }
 
     it { should have_many(:campaign_activities).dependent(:destroy) }
-    it { should have_and_belongs_to_many(:groups) }
+    it { should have_and_belong_to_many(:groups) }
   end
 end

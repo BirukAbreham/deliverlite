@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_15_035212) do
+ActiveRecord::Schema.define(version: 2020_12_18_021158) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,6 +38,13 @@ ActiveRecord::Schema.define(version: 2020_12_15_035212) do
     t.float "bounce_rate", default: 0.0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "campaigns_groups", id: false, force: :cascade do |t|
+    t.bigint "campaign_id", null: false
+    t.bigint "group_id", null: false
+    t.index ["campaign_id"], name: "index_campaigns_groups_on_campaign_id"
+    t.index ["group_id"], name: "index_campaigns_groups_on_group_id"
   end
 
   create_table "contact_activities", force: :cascade do |t|
@@ -71,6 +78,13 @@ ActiveRecord::Schema.define(version: 2020_12_15_035212) do
     t.datetime "date_unsubscribed"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "contacts_groups", id: false, force: :cascade do |t|
+    t.bigint "contact_id", null: false
+    t.bigint "group_id", null: false
+    t.index ["contact_id"], name: "index_contacts_groups_on_contact_id"
+    t.index ["group_id"], name: "index_contacts_groups_on_group_id"
   end
 
   create_table "custom_fields", force: :cascade do |t|

@@ -28,7 +28,7 @@ RSpec.describe Group, type: :model do
   describe 'associations' do
     before { FactoryBot.create(:group) }
 
-    it { should have_and_belongs_to_many(:contacts) }
-    it { should have_and_belongs_to_many(:campaigns) }
+    it { should have_and_belong_to_many(:contacts) }
+    it { should have_and_belong_to_many(:campaigns) }
   end
 end

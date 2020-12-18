@@ -31,10 +31,10 @@ RSpec.describe Contact, type: :model do
   end
 
   describe 'associations' do
-    before { FactoryBot.create(:contact) }
+    # before { FactoryBot.create(:contact) }
     
     it { should have_many(:contact_activities).dependent(:destroy) }
     it { should have_many(:contact_custom_fields).dependent(:destroy) }
-    it { should have_and_belongs_to_many(:groups) }
+    it { should have_and_belong_to_many(:groups) }
   end
 end
