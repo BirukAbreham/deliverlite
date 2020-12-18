@@ -14,4 +14,6 @@ class CustomField < ApplicationRecord
   # associations
   has_many :contact_custom_fields, dependent: :destroy
   has_many :segment_rule_custom_fields, dependent: :destroy
+  has_many :contacts, through: :contact_custom_fields, source: :contact
+  has_many :segment_rules, through: :segment_rule_custom_fields, source: :segment_rule
 end

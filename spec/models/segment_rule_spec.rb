@@ -21,5 +21,6 @@ RSpec.describe SegmentRule, type: :model do
     it { should belong_to(:segment) }
     it { should have_db_index(:segment_id) }
     it { should have_many(:segment_rule_custom_fields).dependent(:destroy) }
+    it { should have_many(:segment_fields) }
   end
 end

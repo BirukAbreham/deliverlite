@@ -22,5 +22,7 @@ RSpec.describe CustomField, type: :model do
 
     it { should have_many(:contact_custom_fields).dependent(:destroy) }
     it { should have_many(:segment_rule_custom_fields).dependent(:destroy) }
+    it { should have_many(:contacts) }
+    it { should have_many(:segment_rules) }
   end
 end

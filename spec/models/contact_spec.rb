@@ -36,5 +36,6 @@ RSpec.describe Contact, type: :model do
     it { should have_many(:contact_activities).dependent(:destroy) }
     it { should have_many(:contact_custom_fields).dependent(:destroy) }
     it { should have_and_belong_to_many(:groups) }
+    it { should have_many(:contact_fields) }
   end
 end

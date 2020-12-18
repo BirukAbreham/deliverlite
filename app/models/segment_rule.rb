@@ -16,4 +16,5 @@ class SegmentRule < ApplicationRecord
   # associations
   belongs_to :segment
   has_many :segment_rule_custom_fields, dependent: :destroy
+  has_many :segment_fields, through: :segment_rule_custom_fields, source: :custom_field
 end
