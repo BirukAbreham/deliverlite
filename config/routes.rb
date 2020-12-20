@@ -22,4 +22,12 @@ Rails.application.routes.draw do
       get 'groups', to: 'campaings#groups'
     end
   end
+
+  resources :segments, only: [ :index, :show, :create, :update, :destroy ] do
+    member do
+      get 'rules', to: 'segments#rules'
+    end
+  end
+
+  resources :segment_rules, only: [ :index, :show, :create, :update, :destroy ]
 end
