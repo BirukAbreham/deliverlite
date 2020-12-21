@@ -1,6 +1,8 @@
 class Api::V1::ContactsController < ApplicationController
   # GET /api/v1/contacts
   def index
+    @contacts = Contact.all
+    render 'contacts/index.json.jbuilder'
   end
 
   # GET /api/v1/contacts/:id
