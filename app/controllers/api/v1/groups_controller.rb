@@ -1,6 +1,8 @@
 class Api::V1::GroupsController < ApplicationController
   # GET /api/v1/groups
   def index
+    @groups = Group.order(created_at: :desc)
+    render 'groups/index.json.jbuilder'
   end
 
   # GET /api/v1/groups/:id

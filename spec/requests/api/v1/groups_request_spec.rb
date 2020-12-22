@@ -2,9 +2,27 @@ require 'rails_helper'
 
 RSpec.describe "Api::V1::Groups", type: :request do
   describe "Fetch actions" do
+    # initialize test data
+    let!(:groups) { create_list(:group, 5) }
+    let(:first_group) { groups.first }
+    let(:last_group) { groups.last }
+
     describe "GET /api/v1/groups" do
-      it "it should return status code of 200 OK"
-      it "response contains a list of JSON groups"
+      # make the request
+      before { get "/api/v1/groups", params: {} }
+
+      it "it should return status code of 200 OK" do
+        expect(response).to have_http_status(200)
+      end
+
+      it "response contains a list of JSON groups" do
+        expect(json_parser["data"].size).to eq(5)
+      end
+
+      it "response is returned in formmat latest to oldest" do
+        expect(json_parser["data"][0]["id"]).to eq(last_group.id)
+        # expect(json_parser["data"][0]).to eq(last_group)
+      end
     end
 
     describe "GET /api/v1/groups/:id" do

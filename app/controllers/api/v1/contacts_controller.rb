@@ -1,7 +1,7 @@
 class Api::V1::ContactsController < ApplicationController
   # GET /api/v1/contacts
   def index
-    @contacts = Contact.all
+    @contacts = Contact.order(created_at: :desc)
     render 'contacts/index.json.jbuilder'
   end
 

@@ -30,4 +30,6 @@ class Contact < ApplicationRecord
   has_many :contact_fields, through: :contact_custom_fields, source: :custom_field
   has_and_belongs_to_many :groups
 
+  def self.contact_detail
+  end
 end
