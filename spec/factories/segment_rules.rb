@@ -13,5 +13,6 @@ FactoryBot.define do
   factory :segment_rule do
     operator { Faker::Name.name }
     arguments { Faker::Lorem.sentence(word_count: 10) }
+    segment
   end
 end

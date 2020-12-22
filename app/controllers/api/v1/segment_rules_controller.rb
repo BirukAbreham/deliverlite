@@ -1,6 +1,8 @@
 class Api::V1::SegmentRulesController < ApplicationController
   # GET /api/v1/segment_rules
   def index
+    @segment_rules = SegmentRule.order(created_at: :desc)
+    render "segment_rules/index.json.jbuilder"
   end
 
   # GET /api/v1/segment_rules/:id

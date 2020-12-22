@@ -2,9 +2,26 @@ require 'rails_helper'
 
 RSpec.describe "Api::V1::Campaigns", type: :request do
   describe "Fetch actions" do
+    # initialize test data
+    let!(:campaigns) { create_list(:campaign, 5) }
+    let(:first_campaign) { campaigns.first }
+    let(:last_campaign) { campaigns.last }
+
     describe "GET /api/v1/campaigns" do
-      it "it should return status code of 200 OK"
-      it "response contains a list of JSON campaigns"
+      # make the request
+      before { get "/api/v1/campaigns", params: {} }
+
+      it "it should return status code of 200 OK" do
+        expect(response).to have_http_status(200)
+      end
+
+      it "response contains a list of JSON campaigns" do
+        expect(json_parser["data"].size).to eq(5)
+      end
+
+      it "response is return in from latest to oldest" do
+        expect(json_parser["data"][0]["id"]).to eq(last_campaign.id)
+      end
     end
 
     describe "GET /api/v1/campaigns/:id" do

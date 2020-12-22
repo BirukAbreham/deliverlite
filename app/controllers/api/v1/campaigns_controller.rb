@@ -1,6 +1,8 @@
 class Api::V1::CampaignsController < ApplicationController
   # GET /api/v1/campaigns
   def index
+    @campaigns = Campaign.order(created_at: :desc)
+    render "campaigns/index.json.jbuilder"
   end
 
   # GET /api/v1/campaigns/:id

@@ -22,7 +22,7 @@ FactoryBot.define do
   factory :campaign do
     status { Faker::Name.name }
     scheduled_at { Faker::Date.between(from: 2.days.ago, to: Date.today)  }
-    compaign_type { Faker::Name.name }
+    campaign_type { Faker::Name.name }
     total_recipients { Faker::Number.number(digits: 5) }
   end
 end

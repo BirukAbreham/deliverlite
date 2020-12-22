@@ -1,6 +1,8 @@
 class Api::V1::SegmentsController < ApplicationController
   # GET /api/v1/segments
   def index
+    @segments = Segment.order(created_at: :desc)
+    render "segments/index.json.jbuilder"
   end
 
   # GET /api/v1/segments/:id
