@@ -1,5 +1,5 @@
 json.data do
-  json.type "contacts",
+  json.type "contacts"
   json.id @contact.id
   json.attributes do
     json.name @contact.name

@@ -35,19 +35,26 @@ RSpec.describe "Api::V1::Contacts", type: :request do
         end
 
         it "response contains a detail information of contact" do
-          
+          expect(json_parser["data"]["id"]).to eq(first_contact.id)
+          expect(json_parser["data"]["attributes"]["name"]).to eq(first_contact.name)
+          expect(json_parser["data"]["attributes"]["email"]).to eq(first_contact.email)
+          expect(json_parser["data"]["attributes"]["sent"]).to eq(first_contact.sent)
+          expect(json_parser["data"]["attributes"]["open"]).to eq(first_contact.open)
         end
       end
 
       context "contact does not exist" do
         # make the request
-        before { get "api/v1/contacts/#{100}", params: {} }
+        before { get "/api/v1/contacts/#{100}", params: {} }
 
         it "it should return status code of 404 NOT FOUND" do
           expect(response).to have_http_status(404)
         end
 
-        it "response contains a list of JSON errors messages"
+        it "response contains a list of JSON errors messages" do
+          expect(json_parser["errors"].length()).to eq(1)
+          expect(json_parser["errors"][0]["title"]).to eq("Record Not Found")
+        end
       end
     end
 
@@ -74,14 +81,17 @@ RSpec.describe "Api::V1::Contacts", type: :request do
           expect(response).to have_http_status(404)
         end
 
-        it "response contains a list of JSON errors messages"
+        it "response contains a list of JSON errors messages" do
+          expect(json_parser["errors"].length()).to eq(1)
+          expect(json_parser["errors"][0]["title"]).to eq("Record Not Found")
+        end
       end
     end
 
     describe "GET /api/v1/contacts/:id/groups" do
       context "contact does exist" do
         # make the request
-        before { get "api/v1/contacts/#{first_contact.id}/groups", params: {} }
+        before { get "/api/v1/contacts/#{first_contact.id}/groups", params: {} }
 
         it "it should return status code of 200 OK" do
           expect(response).to have_http_status(200)
@@ -92,13 +102,16 @@ RSpec.describe "Api::V1::Contacts", type: :request do
 
       context "contact does not exist" do
         # make the request
-        before { get "api/v1/contacts/#{100}/groups", params: {} }
+        before { get "/api/v1/contacts/#{100}/groups", params: {} }
 
         it "it should return status code of 404 NOT FOUND" do
           expect(response).to have_http_status(404)
         end
         
-        it "response contains a list of JSON errors messages"
+        it "response contains a list of JSON errors messages" do
+          expect(json_parser["errors"].length()).to eq(1)
+          expect(json_parser["errors"][0]["title"]).to eq("Record Not Found")
+        end
       end
     end
   end
