@@ -2,11 +2,15 @@ class Api::V1::SegmentsController < ApplicationController
   # GET /api/v1/segments
   def index
     @segments = Segment.order(created_at: :desc)
-    render "segments/index.json.jbuilder"
+    render "segments/index.json.jbuilder", status: :ok
   end
 
   # GET /api/v1/segments/:id
   def show
+    if params[:include].nil?
+      @segment = Segment.find(params[:id])
+    end
+    render "segments/show.json.jbuilder", status: :ok
   end
 
   # GET /api/v1/segments/:id/rules

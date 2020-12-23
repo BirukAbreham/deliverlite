@@ -26,13 +26,32 @@ RSpec.describe "Api::V1::SegmentRules", type: :request do
 
     describe "GET /api/v1/segment_rules/:id" do
       context "segment_rule does exist" do
-        it "it should return status code of 200 OK"
-        it "response contains a detail information of segment_rules"
+        # make the request
+        before { get "/api/v1/segment_rules/#{first_segment_rule.id}", params: {} }
+
+        it "it should return status code of 200 OK" do
+          expect(response).to have_http_status(200)
+        end
+
+        it "response contains a detail information of contact" do
+          expect(json_parser["data"]["id"]).to eq(first_segment_rule.id)
+          expect(json_parser["data"]["attributes"]["operator"]).to eq(first_segment_rule.operator)
+          expect(json_parser["data"]["attributes"]["arguments"]).to eq(first_segment_rule.arguments)
+        end
       end
 
       context "segment_rule does not exist" do
-        it "it should return status code of 404 NOT FOUND"
-        it "response contains a list of JSON errors messages"    
+        # make the request
+        before { get "/api/v1/segment_rules/#{100}", params: {} }
+
+        it "it should return status code of 404 NOT FOUND" do
+          expect(response).to have_http_status(404)
+        end
+
+        it "response contains a list of JSON errors messages" do
+          expect(json_parser["errors"].length()).to eq(1)
+          expect(json_parser["errors"][0]["title"]).to eq("Record Not Found")
+        end    
       end
     end
   end

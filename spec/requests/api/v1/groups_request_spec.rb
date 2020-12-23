@@ -21,19 +21,39 @@ RSpec.describe "Api::V1::Groups", type: :request do
 
       it "response is returned in formmat latest to oldest" do
         expect(json_parser["data"][0]["id"]).to eq(last_group.id)
-        # expect(json_parser["data"][0]).to eq(last_group)
       end
     end
 
     describe "GET /api/v1/groups/:id" do
       context "group does exist" do
-        it "it should return status code of 200 OK"
-        it "response contains a detail information of groups"
+        # make the request
+        before { get "/api/v1/groups/#{first_group.id}", params: {} }
+
+        it "it should return status code of 200 OK" do
+          expect(response).to have_http_status(200)
+        end
+
+        it "response contains a detail information of groups" do
+          expect(json_parser["data"]["id"]).to eq(first_group.id)
+          expect(json_parser["data"]["attributes"]["name"]).to eq(first_group.name)
+          expect(json_parser["data"]["attributes"]["total"]).to eq(first_group.total)
+          expect(json_parser["data"]["attributes"]["active"]).to eq(first_group.active)
+          expect(json_parser["data"]["attributes"]["unsubscribed"]).to eq(first_group.unsubscribed)
+        end
       end
 
       context "group does not exist" do
-        it "it should return status code of 404 NOT FOUND"
-        it "response contains a list of JSON errors messages"    
+        # make the request
+        before { get "/api/v1/groups/#{100}", params: {} }
+
+        it "it should return status code of 404 NOT FOUND" do
+          expect(response).to have_http_status(404)
+        end
+
+        it "response contains a list of JSON errors messages" do
+          expect(json_parser["errors"].length()).to eq(1)
+          expect(json_parser["errors"][0]["title"]).to eq("Record Not Found")
+        end    
       end
     end
 
@@ -44,8 +64,14 @@ RSpec.describe "Api::V1::Groups", type: :request do
       end
 
       context "group does not exist" do
-        it "it should return status code of 404 NOT FOUND"
-        it "response contains a list of JSON errors messages"    
+        it "it should return status code of 404 NOT FOUND" do
+          expect(response).to have_http_status(404)
+        end
+
+        it "response contains a list of JSON errors messages" do
+          expect(json_parser["errors"].length()).to eq(1)
+          expect(json_parser["errors"][0]["title"]).to eq("Record Not Found")
+        end    
       end
     end
 
@@ -56,8 +82,14 @@ RSpec.describe "Api::V1::Groups", type: :request do
       end
 
       context "group does not exist" do
-        it "it should return status code of 404 NOT FOUND"
-        it "response contains a list of JSON errors messages"    
+        it "it should return status code of 404 NOT FOUND" do
+          expect(response).to have_http_status(404)
+        end
+
+        it "response contains a list of JSON errors messages" do
+          expect(json_parser["errors"].length()).to eq(1)
+          expect(json_parser["errors"][0]["title"]).to eq("Record Not Found")
+        end    
       end
     end
   end
@@ -82,8 +114,14 @@ RSpec.describe "Api::V1::Groups", type: :request do
       end
 
       context "group does not exist" do
-        it "it should return status code of 404 NOT FOUND"
-        it "response contains a list of JSON errors messages"
+        it "it should return status code of 404 NOT FOUND" do
+          expect(response).to have_http_status(404)
+        end
+
+        it "response contains a list of JSON errors messages" do
+          expect(json_parser["errors"].length()).to eq(1)
+          expect(json_parser["errors"][0]["title"]).to eq("Record Not Found")
+        end
       end
 
       context "with improper data, group does exist" do
@@ -99,8 +137,14 @@ RSpec.describe "Api::V1::Groups", type: :request do
       end
 
       context "group does not exist" do
-        it "it should return status code of 404 NOT FOUND"
-        it "response contains a list of JSON errors messages"
+        it "it should return status code of 404 NOT FOUND" do
+          expect(response).to have_http_status(404)
+        end
+
+        it "response contains a list of JSON errors messages" do
+          expect(json_parser["errors"].length()).to eq(1)
+          expect(json_parser["errors"][0]["title"]).to eq("Record Not Found")
+        end
       end
     end
   end

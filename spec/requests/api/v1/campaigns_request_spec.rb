@@ -26,13 +26,33 @@ RSpec.describe "Api::V1::Campaigns", type: :request do
 
     describe "GET /api/v1/campaigns/:id" do
       context "campaign does exist" do
-        it "it should return status code of 200 OK"
-        it "response contains a detail information of campaigns"
+        # make the request
+        before { get "/api/v1/campaigns/#{first_campaign.id}", params: {} }
+
+        it "it should return status code of 200 OK" do
+          expect(response).to have_http_status(200)
+        end
+
+        it "response contains a detail information of campaigns" do
+          expect(json_parser["data"]["id"]).to eq(first_campaign.id)
+          expect(json_parser["data"]["attributes"]["status"]).to eq(first_campaign.status)
+          expect(json_parser["data"]["attributes"]["sent_at"]).to eq(first_campaign.sent_at)
+          expect(json_parser["data"]["attributes"]["total_recipients"]).to eq(first_campaign.total_recipients)
+        end
       end
 
       context "campaign does not exist" do
-        it "it should return status code of 404 NOT FOUND"
-        it "response contains a list of JSON errors messages"    
+        # make the request
+        before { get "/api/v1/campaigns/#{100}", params: {} }
+
+        it "it should return status code of 404 NOT FOUND" do
+          expect(response).to have_http_status(404)
+        end
+
+        it "response contains a list of JSON errors messages" do
+          expect(json_parser["errors"].length()).to eq(1)
+          expect(json_parser["errors"][0]["title"]).to eq("Record Not Found")
+        end   
       end
     end
 

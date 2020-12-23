@@ -7,6 +7,10 @@ class Api::V1::CampaignsController < ApplicationController
 
   # GET /api/v1/campaigns/:id
   def show
+    if params[:include].nil?
+      @campaign = Campaign.find(params[:id])
+    end
+    render "campaigns/show.json.jbuilder", status: :ok
   end
 
   # GET /api/v1/campaigns/:id/activities
