@@ -19,7 +19,7 @@ FactoryBot.define do
   factory :contact do
     name { Faker::Name.name }
     email { Faker::Internet.email }
-    contact_type { Faker::Name.name }
+    contact_type { ['active', 'bounced', 'unsubscribed', 'junk', 'unconfirmed' ].sample }
     # date_subscribed { Faker::Date.between(from: 5.days.ago, to: Date.today) }
   end
 end

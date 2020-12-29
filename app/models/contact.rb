@@ -30,6 +30,13 @@ class Contact < ApplicationRecord
   has_many :contact_fields, through: :contact_custom_fields, source: :custom_field
   has_and_belongs_to_many :groups
 
-  def self.contact_detail
+  def self.activities(id)
+    contact = Contact.find(id)
+    { contact: contact, activities: contact.contact_activities }
+  end
+
+  def self.contact_groups(id)
+    contact = Contact.find(id)
+    { contact: contact, groups: contact.groups }
   end
 end

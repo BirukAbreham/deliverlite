@@ -56,6 +56,39 @@ RSpec.describe "Api::V1::Contacts", type: :request do
           expect(json_parser["errors"][0]["title"]).to eq("Record Not Found")
         end
       end
+
+      context "endpoint contains query params of included relations e.g 'activities' & 'groups'" do
+        # make the request
+        before { get "/api/v1/contacts/#{first_contact.id}", params: { includes: ['activity', 'groups'] } }
+
+        it "it should return status code of 200 OK" do
+          expect(response).to have_http_status(200)
+        end
+
+        it "response contains a detail information of contact" do
+          expect(json_parser["data"]["id"]).to eq(first_contact.id)
+          expect(json_parser["data"]["attributes"]["name"]).to eq(first_contact.name)
+          expect(json_parser["data"]["attributes"]["email"]).to eq(first_contact.email)
+          expect(json_parser["data"]["attributes"]["sent"]).to eq(first_contact.sent)
+          expect(json_parser["data"]["attributes"]["open"]).to eq(first_contact.open)
+        end
+
+        it "response contains included additional data about the relations in the included part"
+      end
+
+      context "endpoint contians unprocessable query params" do
+        # make the request
+        before { get "/api/v1/contacts/#{first_contact.id}", params: { includes: ['xyz'] } }
+
+        it "it should return status code of 400 BAD REQUEST" do
+          expect(response).to have_http_status(400)
+        end
+
+        it "response contains a list of JSON error messages" do
+          expect(json_parser["errors"].length()).to eq(1)
+          expect(json_parser["errors"][0]["title"]).to eq("Query Params is Invalid")
+        end
+      end
     end
 
     describe "GET /api/v1/contacts/search" do

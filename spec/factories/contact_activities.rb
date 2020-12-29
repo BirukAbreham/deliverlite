@@ -12,6 +12,7 @@
 FactoryBot.define do
   factory :contact_activity do
     message { Faker::Lorem.sentence(word_count: 10) }
-    activity_type { Faker::Name.name }
+    activity_type { ['open', 'click', 'junk', 'bounce', 'unsubscribe', 'forward'].sample }
+    contact
   end
 end
