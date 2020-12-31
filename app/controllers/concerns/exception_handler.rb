@@ -21,7 +21,7 @@ module ExceptionHandler
     rescue_from ExceptionHandler::QueryParamsError do |e|
       @errors = Array.[](
         status: 400,
-        title: "Query Params is invalide",
+        title: "Query Params is invalid",
         detail: "#{e.message}"
       )
       render "errors/bad_request.json.jbuilder", status: :bad_request

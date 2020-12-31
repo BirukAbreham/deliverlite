@@ -32,11 +32,26 @@ class Contact < ApplicationRecord
 
   def self.activities(id)
     contact = Contact.find(id)
-    { contact: contact, activities: contact.contact_activities }
+    { 
+      contact: contact, 
+      activities: contact.contact_activities 
+    }
   end
 
   def self.contact_groups(id)
     contact = Contact.find(id)
-    { contact: contact, groups: contact.groups }
+    { 
+      contact: contact, 
+      groups: contact.groups 
+    }
+  end
+
+  def self.with_relations(id)
+    contact = Contact.find(id)
+    { 
+      contact: contact, 
+      activities: contact.contact_activities, 
+      groups: contact.groups 
+    }
   end
 end

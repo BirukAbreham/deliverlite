@@ -7,18 +7,7 @@ class Api::V1::ContactsController < ApplicationController
 
   # GET /api/v1/contacts/:id
   def show
-    if params[:includes].nil?
-      contact = Contact.find(params[:id])
-      @contact = { contact: contact }
-    else
-      if params[:includes].include?('activity')
-        # pass
-      elsif params[:includes].include?('groups')
-        # pass
-      else
-        raise ExceptionHandler::QueryParamsError.new "Query param contains other values which are invalid"
-      end
-    end
+    @contact = Contact.with_relations(params[:id])
     render "contacts/show.json.jbuilder", status: :ok
   end
 
