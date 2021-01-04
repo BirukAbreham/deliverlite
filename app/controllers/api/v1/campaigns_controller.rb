@@ -1,8 +1,17 @@
 class Api::V1::CampaignsController < ApplicationController
   # GET /api/v1/campaigns
   def index
-    @campaigns = Campaign.order(created_at: :desc)
-    render "campaigns/index.json.jbuilder"
+    begin
+      @page = Integer(params[:page] || 1)
+      @per_page = Integer(params[:per_page] || 10)
+      @campaigns = Campaign
+        .paginate(page: @page, per_page: @per_page)
+        .order(created_at: :desc)
+      @total_pages = @campaigns.total_pages
+      render "campaigns/index.json.jbuilder", status: :ok
+    rescue ArgumentError => exception
+      raise QueryParamsError.new("Pagination query params is invalid")
+    end
   end
 
   # GET /api/v1/campaigns/:id

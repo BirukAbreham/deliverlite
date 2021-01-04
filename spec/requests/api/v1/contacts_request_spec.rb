@@ -64,6 +64,19 @@ RSpec.describe "Api::V1::Contacts", type: :request do
           expect(json_parser["meta"]["total_pages"]).to eq(2)
         end
       end
+
+      context "Pagination query param is invalid" do
+        before { get "/api/v1/contacts", params: { page: 1, per_page: "xyz" } }
+
+        it "it should return status code of 400 BAD REQUEST" do
+          expect(response).to have_http_status(400)
+        end
+
+        it "response contains a list fo JSON error messages" do
+          expect(json_parser["errors"].length()).to eq(1)
+          expect(json_parser["errors"][0]["title"]).to eq("Query Params is invalid")
+        end
+      end
     end
 
     describe "GET /api/v1/contacts/:id" do

@@ -8,19 +8,58 @@ RSpec.describe "Api::V1::Campaigns", type: :request do
     let(:last_campaign) { campaigns.last }
 
     describe "GET /api/v1/campaigns" do
-      # make the request
-      before { get "/api/v1/campaigns", params: {} }
+      context "Pagination params are not provided" do
+        # make the request
+        before { get "/api/v1/campaigns", params: {} }
 
-      it "it should return status code of 200 OK" do
-        expect(response).to have_http_status(200)
+        it "it should return status code of 200 OK" do
+          expect(response).to have_http_status(200)
+        end
+
+        it "response contains a list of JSON campaigns" do
+          expect(json_parser["data"].size).to eq(5)
+        end
+
+        it "response is return in from latest to oldest" do
+          expect(json_parser["data"][0]["id"]).to eq(last_campaign.id)
+        end
+
+        it "response contains pagination meta information" do
+          expect(json_parser["meta"]["page"]).to eq(1)
+          expect(json_parser["meta"]["per_page"]).to eq(10)
+          expect(json_parser["meta"]["total_pages"]).to eq(1)
+        end
       end
 
-      it "response contains a list of JSON campaigns" do
-        expect(json_parser["data"].size).to eq(5)
+      context "Pagination params are provided" do
+        before { get "/api/v1/campaigns", params: { page: 1, per_page: 2} }
+
+        it "it should return status code of 200 OK" do
+          expect(response).to have_http_status(200)
+        end
+
+        it "response contains a list of JSON campaigns" do
+          expect(json_parser["data"].size).to eq(2) # per_page is 2
+        end
+
+        it "response contains pagination meta information" do
+          expect(json_parser["meta"]["page"]).to eq(1)
+          expect(json_parser["meta"]["per_page"]).to eq(2)
+          expect(json_parser["meta"]["total_pages"]).to eq(3)
+        end
       end
 
-      it "response is return in from latest to oldest" do
-        expect(json_parser["data"][0]["id"]).to eq(last_campaign.id)
+      context "Pagination query param is invalid" do
+        before { get "/api/v1/campaigns", params: { page: 1, per_page: "xyz" } }
+
+        it "it should return status code of 400 BAD REQUEST" do
+          expect(response).to have_http_status(400)
+        end
+
+        it "response contains a list of JSON error messages" do
+          expect(json_parser["errors"].length()).to eq(1)
+          expect(json_parser["errors"][0]["title"]).to eq("Query Params is invalid")
+        end
       end
     end
 

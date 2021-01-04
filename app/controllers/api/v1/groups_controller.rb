@@ -1,8 +1,17 @@
 class Api::V1::GroupsController < ApplicationController
   # GET /api/v1/groups
   def index
-    @groups = Group.order(created_at: :desc)
-    render 'groups/index.json.jbuilder', status: :ok
+    begin
+      @page = Integer(params[:page] || 1)
+      @per_page = Integer(params[:per_page] || 10)
+      @groups = Group
+        .paginate(page: @page, per_page: @per_page)
+        .order(created_at: :desc)
+      @total_pages = @groups.total_pages
+      render 'groups/index.json.jbuilder', status: :ok
+    rescue ArgumentError => exception
+      raise QueryParamsError.new("Pagination query params is invalid")
+    end
   end
 
   # GET /api/v1/groups/:id

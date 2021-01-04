@@ -8,19 +8,58 @@ RSpec.describe "Api::V1::Segments", type: :request do
     let(:last_segment) { segments.last }
 
     describe "GET /api/v1/segments" do
-      # make the request
-      before { get "/api/v1/segments", params: {} }
+      context "Pagination params are not provided" do
+        # make the request
+        before { get "/api/v1/segments", params: {} }
 
-      it "it should return status code of 200 OK" do
-        expect(response).to have_http_status(200)
+        it "it should return status code of 200 OK" do
+          expect(response).to have_http_status(200)
+        end
+
+        it "response contains a list of JSON segments" do
+          expect(json_parser["data"].size).to eq(5)
+        end
+
+        it "response is returned in a manner from latest to oldest" do
+          expect(json_parser["data"][0]["id"]).to eq(last_segment.id)
+        end
+
+        it "response contains pagination meta information" do
+          expect(json_parser["meta"]["page"]).to eq(1)
+          expect(json_parser["meta"]["per_page"]).to eq(10)
+          expect(json_parser["meta"]["total_pages"]).to eq(1)
+        end
       end
 
-      it "response contains a list of JSON segments" do
-        expect(json_parser["data"].size).to eq(5)
+      context "Pagination params are provided" do
+        before { get "/api/v1/segments", params: { page: 1, per_page: 2 } }
+
+        it "it should return status code of 200 OK" do
+          expect(response).to have_http_status(200)
+        end
+
+        it "response contains a list of JSON contacts" do
+          expect(json_parser["data"].size).to eq(2) # per page is 2
+        end
+
+        it "response contains pagination meta information" do
+          expect(json_parser["meta"]["page"]).to eq(1)
+          expect(json_parser["meta"]["per_page"]).to eq(2)
+          expect(json_parser["meta"]["total_pages"]).to eq(3)
+        end
       end
 
-      it "response is returned in a manner from latest to oldest" do
-        expect(json_parser["data"][0]["id"]).to eq(last_segment.id)
+      context "Pagination query param is invalid" do
+        before { get "/api/v1/segments", params: { page: 1, per_page: "xyz" } }
+
+        it "it should return status code of 400 BAD REQUEST" do
+          expect(response).to have_http_status(400)
+        end
+
+        it "response contains a list fo JSON error messages" do
+          expect(json_parser["errors"].length()).to eq(1)
+          expect(json_parser["errors"][0]["title"]).to eq("Query Params is invalid")
+        end
       end
     end
 

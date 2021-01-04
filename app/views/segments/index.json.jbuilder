@@ -1,3 +1,9 @@
+json.meta do
+  json.total_pages @total_pages
+  json.page @page
+  json.per_page @per_page  
+end
+
 json.data @segments do |segment|
   json.type "segments"
   json.id segment.id
