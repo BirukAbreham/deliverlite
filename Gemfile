@@ -33,6 +33,9 @@ gem 'rack-cors'
 # Use JSON web token authentication
 gem 'jwt'
 
+# Use will paginate, for pagination purpose in index endpoints
+gem 'will_paginate'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -45,12 +48,7 @@ group :development, :test do
   # for seeding database
   gem 'factory_bot_rails'
   gem 'faker'
-end
-
-group :test do
-  gem 'factory_bot_rails'
   gem 'shoulda-matchers'
-  gem 'faker'
   gem 'database_cleaner'
 end
 

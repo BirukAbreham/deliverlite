@@ -24,19 +24,45 @@ RSpec.describe "Api::V1::Contacts", type: :request do
     end
 
     describe "GET /api/v1/contacts" do
-      # make the request
-      before { get '/api/v1/contacts', params: {} }
+      context "Pagination params are not provided" do
+        # make the request
+        before { get '/api/v1/contacts', params: {} }
 
-      it "it should return status code of 200 OK" do
-        expect(response).to have_http_status(200)
+        it "it should return status code of 200 OK" do
+          expect(response).to have_http_status(200)
+        end
+
+        it "response contains a list of JSON contacts" do
+          expect(json_parser["data"].size).to eq(10)
+        end
+
+        it "response is return in from latest to oldest" do
+          expect(json_parser["data"][0]["id"]).to eq(last_contact.id)
+        end
+
+        it "response contains pagination meta information" do
+          expect(json_parser["meta"]["page"]).to eq(1)
+          expect(json_parser["meta"]["per_page"]).to eq(10)
+          expect(json_parser["meta"]["total_pages"]).to eq(1)
+        end
       end
 
-      it "response contains a list of JSON contacts" do
-        expect(json_parser["data"].size).to eq(10)
-      end
+      context "Pagination params are provided" do
+        before { get "/api/v1/contacts", params: { page: 1, per_page: 5 } }
 
-      it "response is return in from latest to oldest" do
-        expect(json_parser["data"][0]["id"]).to eq(last_contact.id)
+        it "it should return status code of 200 OK" do
+          expect(response).to have_http_status(200)
+        end
+
+        it "response contains a list of JSON contacts" do
+          expect(json_parser["data"].size).to eq(5) # per page is 5
+        end
+
+        it "response contains pagination meta information" do
+          expect(json_parser["meta"]["page"]).to eq(1)
+          expect(json_parser["meta"]["per_page"]).to eq(5)
+          expect(json_parser["meta"]["total_pages"]).to eq(2)
+        end
       end
     end
 

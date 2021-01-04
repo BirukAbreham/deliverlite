@@ -1,7 +1,12 @@
 class Api::V1::ContactsController < ApplicationController
   # GET /api/v1/contacts
   def index
-    @contacts = Contact.order(created_at: :desc)
+    @page = (params[:page] || 1).to_i
+    @per_page = (params[:per_page] || 10).to_i
+    @contacts = Contact
+      .paginate(page: @page, per_page: @per_page)
+      .order(created_at: :desc)
+    @total_pages = @contacts.total_pages
     render "contacts/index.json.jbuilder", status: :ok
   end
 
